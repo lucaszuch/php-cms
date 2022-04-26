@@ -18,8 +18,8 @@ class Pages extends Controller
 
     // Data to display
     $view_data = array(
-      'title' => 'The title',
-      // 'posts' => $posts
+      'site_index_title' => 'PHP CMS',
+      'site_index_description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     );
     $this->view('pages/index', $view_data);
   }
