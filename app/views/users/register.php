@@ -4,7 +4,7 @@
 </div>
 <div class="row">
   <div class="col-md-6 mx-auto">
-    <form action="<?= APP_ROOT ?>/users/register" method="POST">
+    <form action="<?= URL_LINK ?>/users/register" method="POST">
       <div class="form-group mt-3">
         <label for="name">Name: <sup>*</sup></label>
         <input type="text" name="name" class="form-control" />
@@ -15,11 +15,11 @@
       </div>
       <div class="form-group mt-3">
         <label for="email">Password: <sup>*</sup></label>
-        <input type="password" name="Password" class="form-control" />
+        <input type="password" name="password" class="form-control" />
       </div>
       <div class="form-group mt-3">
         <label for="email">Confirm password: <sup>*</sup></label>
-        <input type="password" name="Confirm password" class="form-control" />
+        <input type="password" name="confirm_password" class="form-control" />
       </div>
       <div class="row">
         <div class="col-md-4 mx-auto">

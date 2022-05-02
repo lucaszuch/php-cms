@@ -13,3 +13,7 @@ define('APP_VERSION', '1.0.0');
 
 // Error handling. If set to true, errors will be displayed.
 define('DISPLAY_ERROR', true);
+
+/**
+ * Create the table for users withing the base MVC.
+ */

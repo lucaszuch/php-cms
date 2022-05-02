@@ -4,14 +4,14 @@
 </div>
 <div class="row">
   <div class="col-md-6 mx-auto">
-    <form action="<?= APP_ROOT ?>/users/login" method="POST">
+    <form action="<?= URL_LINK ?>/users/login" method="POST">
       <div class="form-group mt-3">
         <label for="email">Email: <sup>*</sup></label>
         <input type="email" name="email" class="form-control" />
       </div>
       <div class="form-group mt-3">
         <label for="email">Password: <sup>*</sup></label>
-        <input type="password" name="Password" class="form-control" />
+        <input type="password" name="password" class="form-control" />
       </div>
       <div class="row">
         <div class="col-md-4 mx-auto mt-3">
