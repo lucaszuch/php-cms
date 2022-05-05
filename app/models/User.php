@@ -38,10 +38,29 @@ class User
     $this->db->bind(':email', $data['email']);
     $this->db->bind(':password', $data['password']);
 
-    // Runs the query and return a boolean to be used on the User clas
+    // Runs the query and return a boolean to be used on the User class.
     if ($this->db->execute_query()) {
       return true;
     }
     return false;
+  }
+
+  public function login(string $email, string $password)
+  {
+    // Find the user in the DB.
+    $this->db->query('SELECT * FROM users WHERE email = :email');
+    $this->db->bind(':email', $email);
+
+    // Return a single result and fetch the password from the row.
+    $row = $this->db->result_single();
+    $hashed_password = $row->password;
+
+    // As the password is hashed, we have to match them.
+    // If it's correct we will return the whole row, otherwise false and the checking will fail.
+    if (password_verify($password, $hashed_password)) {
+      return $row;
+    } else {
+      return false;
+    }
   }
 }

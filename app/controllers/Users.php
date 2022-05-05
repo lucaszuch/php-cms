@@ -35,6 +35,7 @@ class Users extends Controller
           // Add the user to the DB
           if (!empty($data['password'])) {
             if ($this->userModel->register_user($data)) {
+              flash_message('register_ok', 'Register! Please log in!');
               redirect_user('users/login');
             } else {
               die('Something went wrong!');
@@ -68,9 +69,29 @@ class Users extends Controller
 
       // Initiate the data
       $data = [
-        'email' => $_POST['name'],
-        'password' => $_POST['name'],
+        'email' => $_POST['email'],
+        'password' => $_POST['password'],
       ];
+
+      // Check if email is registered
+      if (!empty($data['email'])) {
+        if ($this->userModel->find_user_email($data['email'])) {
+          if ($data['password']) {
+            // Initialize the login within a variable
+            $loggedUser = $this->userModel->login($data['email'], $data['password']);
+
+            // We check if the response was positive and manage accordingly
+            if ($loggedUser) {
+              die('You are in boy!');
+            } else {
+              die('Invalid password!');
+            }
+          }
+        } else {
+          // User not found.
+          die('Invalid email!');
+        }
+      }
     } else {
       $data = [
         'email' => '',

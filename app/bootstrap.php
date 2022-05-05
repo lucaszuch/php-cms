@@ -4,6 +4,7 @@ require_once 'config/config.php';
 
 // Load helpers
 require_once 'helpers/url_helpers.php';
+require_once 'helpers/session_helper.php';
 
 // Displays the error handling if DISPLAY_ERROR is set true
 if (DISPLAY_ERROR) {

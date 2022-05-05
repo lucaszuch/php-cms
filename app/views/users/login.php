@@ -1,5 +1,6 @@
 <?php require APP_ROOT . '/views/inc/header.php'; ?>
 <div class="row">
+  <?php flash_message('register_ok'); ?>
   <h1>LOGIN</h1>
 </div>
 <div class="row">
