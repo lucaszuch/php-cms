@@ -8,12 +8,13 @@ class User
 {
   private $db;
 
+  // Instantiate the DB
   public function __construct()
   {
-    // Instantiate the DB
     $this->db = new Database;
   }
 
+  // Find the user based on its email.  
   public function find_user_email(string $email)
   {
     // Return all the users with that specific emails
@@ -28,6 +29,23 @@ class User
       return true;
     }
     return false;
+  }
+
+  // Find the user based on its ID and return all its data.
+  public function get_user(string $id)
+  {
+    // Return all the users with that specific emails
+    $this->db->query('SELECT * FROM users WHERE id = :id');
+    $this->db->bind(':id', $id);
+
+    // Store the results in a variable
+    $row = $this->db->result_single();
+
+    // Check if the email already exists in the DB
+    if ($this->db->row_count() > 0) {
+      return $row;
+    }
+    return;
   }
 
   public function register_user(array $data)

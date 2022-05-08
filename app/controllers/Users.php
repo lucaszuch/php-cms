@@ -82,7 +82,10 @@ class Users extends Controller
 
             // We check if the response was positive and manage accordingly
             if ($loggedUser) {
-              die('You are in boy!');
+              // Create a new session and redirect user
+              $this->current_user($loggedUser);
+              flash_message('login_ok', 'Welcome ' . $loggedUser->name . '!');
+              $this->create_user_session($loggedUser);
             } else {
               die('Invalid password!');
             }
@@ -103,5 +106,33 @@ class Users extends Controller
       // Load the view
       $this->view('users/login', $data);
     }
+  }
+
+  // Create a new session to a logged in user and redirect to the posts page.
+  public function create_user_session($user)
+  {
+    $_SESSION['user_id'] = $user->id;
+    $_SESSION['name'] = $user->name;
+    $_SESSION['email'] = $user->email;
+    redirect_user('posts/index');
+  }
+
+  // Remove all the session information about the user.
+  public function logout()
+  {
+    unset($_SESSION['user_id']);
+    unset($_SESSION['name']);
+    unset($_SESSION['email']);
+    session_destroy();
+    redirect_user('pages/index');
+  }
+
+  // Support function that check if there's a user currently logged in.
+  public function current_user($user)
+  {
+    if (isset($_SESSION['user_id'])) {
+      return $user;
+    }
+    return;
   }
 }

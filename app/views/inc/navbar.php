@@ -21,12 +21,21 @@
         </li>
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-        <li class="nav-item">
-          <a class="nav-link" href="<?= URL_LINK ?>/users/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<?= URL_LINK ?>/users/register">Register</a>
-        </li>
+        <?php if (!isset($_SESSION['user_id'])) : ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= URL_LINK ?>/users/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= URL_LINK ?>/users/register">Register</a>
+          </li>
+        <?php else : ?>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= URL_LINK ?>/posts/index">Posts</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?= URL_LINK ?>/users/logout">Logout</a>
+          </li>
+        <?php endif; ?>
       </ul>
     </div>
   </div>
