@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Example Modal Class.
+ * Manages posts - CRUD.
  */
 class Post
 {
@@ -12,10 +12,14 @@ class Post
     $this->db = new Database;
   }
 
-  public function get_posts()
+  // Return all the posts from the user.
+  public function get_posts(string $user_id)
   {
-    $this->db->query("SELECT * FROM posts");
-
-    return $this->db->result_set();
+    $this->db->query("SELECT *, posts.id as post_id, users.id as user_id  FROM posts INNER JOIN users ON posts.user_id = users.id WHERE user_id = :id");
+    $this->db->bind(':id', $user_id);
+    if ($this->db->execute_query()) {
+      return $this->db->result_set();
+    }
+    return false;
   }
 }

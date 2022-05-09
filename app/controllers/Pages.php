@@ -7,15 +7,11 @@ class Pages extends Controller
 {
   public function __construct()
   {
-    // Example for models
-    //$this->post_model = $this->model('Post');
+    // Do something.
   }
 
   public function index()
   {
-    // Examples for posts
-    //$posts = $this->post_model->get_posts();
-
     // Data to display
     $view_data = array(
       'site_index_title' => 'PHP CMS',
