@@ -12,6 +12,11 @@ class Pages extends Controller
 
   public function index()
   {
+    // If user logged in, always redirect to posts
+    if (get_user_id()) {
+      redirect_user('posts/index');
+    }
+
     // Data to display
     $view_data = array(
       'site_index_title' => 'PHP CMS',

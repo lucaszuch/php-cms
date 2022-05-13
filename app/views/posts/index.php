@@ -1,20 +1,22 @@
 <?php require APP_ROOT . '/views/inc/header.php'; ?>
 <div class="row">
   <?php flash_message('login_ok'); ?>
+  <?php flash_message('post_registered'); ?>
+  <?php flash_message('request_error'); ?>
+  <?php flash_message('delete_error'); ?>
+  <?php flash_message('delete_success'); ?>
   <h1>POSTS</h1>
 </div>
 <div class="row mb-3">
   <nav class="nav">
     <a class="nav-link active" aria-current="page" href="<?= URL_LINK ?>/posts/add">New Post</a>
-    <a class="nav-link" href="<?= URL_LINK ?>/posts/edit">Edit Post</a>
-    <a class="nav-link" href="<?= URL_LINK ?>/posts/remove">Remove Post</a>
   </nav>
 </div>
 <div class="row">
   <?php if (!empty($data['all_posts'])) : ?>
     <?php foreach ($data['all_posts'] as $item) : ?>
       <div class="col-12 col-md-6 col-lg-4 mx-auto">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">
             Posted by: <?= $item->name ?>.
           </div>
@@ -26,6 +28,10 @@
               <?= $item->content ?>.
             </p>
             <a href="<?= URL_LINK ?>/posts/show/<?= $item->post_id ?>" class="btn btn-primary">View</a>
+            <form action="<?= URL_LINK ?>/posts/remove" method="POST">
+              <input type="hidden" name="post_id" value="<?= $item->post_id ?>" />
+              <button type="submit" class="btn btn-danger">Remove</button>
+            </form>
           </div>
         </div>
       </div>

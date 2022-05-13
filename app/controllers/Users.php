@@ -10,12 +10,12 @@ class Users extends Controller
 
   public function register()
   {
-    // Check for post
+    // Check for post.
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      // Sanitize data to string
+      // Sanitize data to string.
       $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
 
-      // Initiate the data
+      // Initiate the data.
       $data = [
         'name' => trim($_POST['name']),
         'email' => trim($_POST['email']),
@@ -23,16 +23,16 @@ class Users extends Controller
         'confirm_password' => trim($_POST['confirm_password'])
       ];
 
-      // Check if email is already registered
+      // Check if email is already registered.
       if (!empty($data['email'])) {
         if ($this->userModel->find_user_email($data['email'])) {
           die('Already on DB!');
         } else {
-          // Validation needs to change - for now we only check the email
-          // Hash the password
+          // Validation needs to change - for now we only check the email.
+          // Hash the password.
           $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-          // Add the user to the DB
+          // Add the user to the DB.
           if (!empty($data['password'])) {
             if ($this->userModel->register_user($data)) {
               flash_message('register_ok', 'Register! Please log in!');
