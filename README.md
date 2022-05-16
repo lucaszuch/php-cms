@@ -1,4 +1,4 @@
-# PHP MVC (Base Framework)
+# PHP CMS (Base Framework)
 ## Description:
 Base MVC framework for PHP applications.
 
