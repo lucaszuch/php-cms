@@ -12,4 +12,4 @@ define('SITE_NAME', 'PHP CMS');
 define('APP_VERSION', '1.0.0');
 
 // Error handling. If set to true, errors will be displayed.
-define('DISPLAY_ERROR', true);
+define('DISPLAY_ERROR', false);

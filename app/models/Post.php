@@ -63,4 +63,19 @@ class Post
     }
     return false;
   }
+
+  // Update a post.
+  public function update_post(array $post_data)
+  {
+    $this->db->query("UPDATE posts SET title = :title, content = :content WHERE id = :id");
+    $this->db->bind(':id', $post_data['id']);
+    $this->db->bind(':title', $post_data['title']);
+    $this->db->bind(':content', $post_data['content']);
+
+    // Run query.
+    if ($this->db->execute_query()) {
+      return true;
+    }
+    return false;
+  }
 }

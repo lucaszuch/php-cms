@@ -1,6 +1,7 @@
 <?php
 class Posts extends Controller
 {
+  // Create a variable that automates if posts belongs to user.
 
   public function __construct()
   {
@@ -65,19 +66,28 @@ class Posts extends Controller
     $this->view('posts/add', $data);
   }
 
+  public function check_post_onwer(string $post_id)
+  {
+    // Fetch the current user and the post date based on the post_id.
+    $current_user = get_user_id();
+    $post_data = $this->post_model->get_single_post($post_id);
+
+    // Check if the user is the post owner.
+    if ($post_data->user_id == $current_user) {
+      return true;
+    }
+    return false;
+  }
+
   public function remove()
   {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // Sanitize data.
       $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
 
-      // Fetch post data.
-      $current_user = get_user_id();
-      $post_data = $this->post_model->get_single_post($_POST['post_id']);
-
       // If user_id owns the post, we proceed to delete it. Otherwise we display an error.
-      if ($post_data->user_id == $current_user) {
-        if ($this->post_model->remove_post($post_data->id)) {
+      if ($this->check_post_onwer($_POST['post_id'])) {
+        if ($this->post_model->remove_post($_POST['post_id'])) {
           flash_message('delete_success', 'Post deleted!');
           redirect_user('posts/index');
         }
@@ -87,5 +97,63 @@ class Posts extends Controller
     } else {
       flash_message('request_error', 'Something went wrong!', 'alert alert-danger');
     }
+  }
+
+  public function edit()
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // Sanitize data.
+      $_POST = filter_input_array(INPUT_POST, FILTER_UNSAFE_RAW);
+
+      // Prepare data.
+      $post_to_edit = [
+        'id' => trim($_POST['post_id']),
+        'title' => trim($_POST['title']),
+        'content' => trim($_POST['content'])
+      ];
+
+      // Fetch post data.
+      $current_user = get_user_id();
+      $post_data = $this->post_model->get_single_post($_POST['post_id']);
+
+      // If user own the post, we proceed to edit it. Otherwise, we display an error.
+      if ($this->check_post_onwer($_POST['post_id'])) {
+        if ($this->post_model->update_post($post_to_edit)) {
+          flash_message('update_success', 'Woop! Post updated!!');
+          redirect_user('posts/index');
+        } else {
+          flash_message('update_error', 'Oops! We could not update it.', 'alert alert-danger');
+          redirect_user('posts/index');
+        }
+      }
+    } else {
+      // Check if there's a valid post id.
+      if (!isset($_GET['id']) || $_GET['id'] == '') {
+        redirect_user('posts/index');
+      }
+
+      // Fetch the post ID and check if post belongs to the user.
+      $_GET = filter_input_array(INPUT_GET, FILTER_UNSAFE_RAW);
+      $post_id = $_GET['id'];
+
+      // Fetch post data.
+      $current_user = get_user_id();
+      $post_data = $this->post_model->get_single_post($post_id);
+
+      // If user_id owns the post, we proceed to delete it. Otherwise we display an error.
+      if ($post_data->user_id == $current_user) {
+        $data =  [
+          'id' => $post_data->id,
+          'title' => $post_data->title,
+          'content' => $post_data->content
+        ];
+      } else {
+        flash_message('not_owner', 'You are not allowed to edit this post!', 'alert alert-danger');
+        redirect_user('posts/index');
+      }
+    }
+
+    // Load the view.
+    $this->view('posts/edit', $data);
   }
 }
