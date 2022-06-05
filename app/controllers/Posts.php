@@ -2,6 +2,8 @@
 class Posts extends Controller
 {
   // Create a variable that automates if posts belongs to user.
+  private $controller_id = 0;
+  private $controller_version = "1.0.0";
 
   public function __construct()
   {
@@ -25,6 +27,19 @@ class Posts extends Controller
     ];
 
     $this->view('posts/index', $data);
+  }
+
+  public function get_post(): int
+  {
+    return $this->controller_id;
+  }
+
+  public function set_version(string $updated_version) : string {
+    return $this->controller_version = $updated_version;
+  }
+
+  static function return_controller_version() : string {
+    return Posts::$controller_version;
   }
 
   public function add()
